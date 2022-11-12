@@ -28,11 +28,10 @@ continuen_button = '/html/body/app-root/flights-root/div/div/div/div/flights-laz
 # SEATING PAGE
 row_of_seats = '/html/body/seats-root/div/div/div/seats-container-root/seats-container-v2/main/div[2]/div/div/div/div/div/div[1]/seat-map/div/div[4]/div'
 seating_page_tile = '/html/body/seats-root/div/div/div/seats-container-root/seats-container-v2/main/div[1]/div/h1'
-outward_flight_detail = '/html/body/seats-root/div/div/div/seats-container-root/seats-container-v2/main/div[2]/div/div/div/div/div/div[2]/div/passenger-carousel-v2/div/div[1]/h4'
-outward_flight_seat = '//*[@id="seat-11A"]'
+flight_detail = '/html/body/seats-root/div/div/div/seats-container-root/seats-container-v2/main/div[2]/div/div/div/div/div/div[2]/div/passenger-carousel-v2/div/div[1]/h4'
+outward_flight_seat = '//*[@id="seat-20C"]'
 next_flight_button = '/html/body/seats-root/div/div/div/seats-container-root/seats-container-v2/main/div[2]/div/div/div/div/div/div[2]/div/seats-actions/span/button'
-return_flight_detail = '/html/body/seats-root/div/div/div/seats-container-root/seats-container-v2/main/div[2]/div/div/div/div/div/div[2]/div/passenger-carousel-v2/div/div[1]/h4'
-return_flight_seat = '//*[@id="seat-08A"]'
+return_flight_seat = '//*[@id="seat-08F"]'
 seat_continue_button = '/html/body/seats-root/div/div/div/seats-container-root/seats-container-v2/main/div[2]/div/div/div/div/div/div[2]/div/seats-actions/span/button'
 fast_track_popup = '/html/body/seats-root/personalization-takeovers/ry-message-renderer[3]/ng-component/ry-enhanced-takeover-beta-desktop/div/div[3]/div[2]/div[1]/button'
 

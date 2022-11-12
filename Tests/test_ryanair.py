@@ -31,7 +31,7 @@ class TestRyanair:
         driver.find_element(By.XPATH, l.return_date_april_27).click()
         search = driver.find_element(By.XPATH, l.search_button)
         search.click()
-        time.sleep(4)
+        time.sleep(2)
 
     @pytest.fixture
     def enter_passenger_info(self):
@@ -43,21 +43,16 @@ class TestRyanair:
         last_name_field = driver.find_element(By.XPATH, l.passenger_last_name)
         last_name_field.click()
         last_name_field.send_keys('Doe')
-        driver.find_element(By.XPATH, l.continuen_button).click()
 
     @pytest.fixture()
     def choose_seats(self):
         driver.find_elements(By.XPATH, l.row_of_seats)
-        assert driver.find_element(By.XPATH, l.outward_flight_detail).text == 'Dublin to Alicante'
+        assert driver.find_element(By.XPATH, l.flight_detail).text == 'Dublin to Alicante'
         driver.find_element(By.XPATH, l.outward_flight_seat).click()
         driver.find_element(By.XPATH, l.next_flight_button).click()
-        time.sleep(3)
-        assert driver.find_element(By.XPATH, l.outward_flight_detail).text == 'Alicante to Dublin'
+        time.sleep(2)
+        assert driver.find_element(By.XPATH, l.flight_detail).text == 'Alicante to Dublin'
         driver.find_element(By.XPATH, l.return_flight_seat).click()
-        driver.find_element(By.XPATH, l.seat_continue_button).click()
-        if(driver.find_element(By.XPATH, l.fast_track_popup)).is_displayed():
-            driver.find_element(By.XPATH, l.fast_track_popup).click()
-        time.sleep(3)
 
     # TESTS
     def test_suggested_flights_details(self, search_flights):
@@ -75,10 +70,9 @@ class TestRyanair:
         driver.find_element(By.XPATH, l.departure_flight).click()
         # select return flight
         driver.find_element(By.XPATH, l.return_flight).click()
-        time.sleep(1)
         #  select regular option
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, l.regular_option)))
         driver.find_element(By.XPATH, l.regular_option).click()
-        time.sleep(3)
         login_to_my_ryanair_section = driver.find_element(By.XPATH, l.login_to_myryanair_section)
         assert login_to_my_ryanair_section.is_displayed()
         passengers_section = driver.find_element(By.XPATH, l.passengers_section)
@@ -91,7 +85,12 @@ class TestRyanair:
         assert passengers_section.is_enabled()
 
     def test_seating_page_first_flight_is_displayed(self, enter_passenger_info):
+        driver.find_element(By.XPATH, l.continuen_button).click()
         assert driver.find_element(By.XPATH, l.seating_page_tile).is_displayed()
 
     def test_bags_page_is_displayed(self, choose_seats):
+        driver.find_element(By.XPATH, l.seat_continue_button).click()
+        if(driver.find_element(By.XPATH, l.fast_track_popup)).is_displayed():
+            driver.find_element(By.XPATH, l.fast_track_popup).click()
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, l.cabin_bags_title)))
         assert driver.find_element(By.XPATH, l.cabin_bags_title).is_displayed()
