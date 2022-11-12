@@ -3,15 +3,19 @@ import time
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 import Locators.locators
 
 driver = webdriver.Chrome(
     executable_path='GenesysTest/drivers/chromedriver.exe')
+driver.implicitly_wait(10)
 l = Locators.locators
 
 
 class TestRyanair:
+
     # FIXTURES
     @pytest.fixture
     def search_flights(self):
@@ -19,11 +23,9 @@ class TestRyanair:
         # accept cookie popup
         driver.find_element(By.CLASS_NAME, "cookie-popup-with-overlay__button").click()
         driver.find_element(By.ID, 'input-button__destination').click()
-        time.sleep(1)
         # select city
         city = driver.find_element(By.XPATH, l.city)
         city.click()
-        time.sleep(1)
         driver.find_element(By.XPATH, l.month_april).click()
         driver.find_element(By.XPATH, l.depart_date_april_19).click()
         driver.find_element(By.XPATH, l.return_date_april_27).click()
@@ -42,10 +44,10 @@ class TestRyanair:
         last_name_field.click()
         last_name_field.send_keys('Doe')
         driver.find_element(By.XPATH, l.continuen_button).click()
-        time.sleep(5)
 
     @pytest.fixture()
     def choose_seats(self):
+        driver.find_elements(By.XPATH, l.row_of_seats)
         assert driver.find_element(By.XPATH, l.outward_flight_detail).text == 'Dublin to Alicante'
         driver.find_element(By.XPATH, l.outward_flight_seat).click()
         driver.find_element(By.XPATH, l.next_flight_button).click()
@@ -53,8 +55,8 @@ class TestRyanair:
         assert driver.find_element(By.XPATH, l.outward_flight_detail).text == 'Alicante to Dublin'
         driver.find_element(By.XPATH, l.return_flight_seat).click()
         driver.find_element(By.XPATH, l.seat_continue_button).click()
-        time.sleep(4)
-        driver.find_element(By.XPATH, l.fast_track_popup).click()
+        if(driver.find_element(By.XPATH, l.fast_track_popup)).is_displayed():
+            driver.find_element(By.XPATH, l.fast_track_popup).click()
         time.sleep(3)
 
     # TESTS
