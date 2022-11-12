@@ -7,12 +7,12 @@ from selenium.webdriver.common.by import By
 import Locators.locators
 
 driver = webdriver.Chrome(
-    executable_path='C:/Users/New User/PycharmProjects/GenesysTest/drivers/chromedriver.exe')
+    executable_path='GenesysTest/drivers/chromedriver.exe')
 l = Locators.locators
 
 
 class TestRyanair:
-
+    # FIXTURES
     @pytest.fixture
     def search_flights(self):
         driver.get('https://www.ryanair.com/')
@@ -24,21 +24,47 @@ class TestRyanair:
         city = driver.find_element(By.XPATH, l.city)
         city.click()
         time.sleep(1)
-        departure_date = driver.find_element(By.XPATH, l.departure_date)
-        departure_date.click()
-        return_date = driver.find_element(By.XPATH, l.return_date)
-        return_date.click()
+        driver.find_element(By.XPATH, l.month_april).click()
+        driver.find_element(By.XPATH, l.depart_date_april_19).click()
+        driver.find_element(By.XPATH, l.return_date_april_27).click()
         search = driver.find_element(By.XPATH, l.search_button)
         search.click()
         time.sleep(4)
 
+    @pytest.fixture
+    def enter_passenger_info(self):
+        driver.find_element(By.XPATH, l.passenger_title).click()
+        driver.find_element(By.XPATH, l.passenger_title_mr).click()
+        first_name_field = driver.find_element(By.XPATH, l.passenger_first_name)
+        first_name_field.click()
+        first_name_field.send_keys('John')
+        last_name_field = driver.find_element(By.XPATH, l.passenger_last_name)
+        last_name_field.click()
+        last_name_field.send_keys('Doe')
+        driver.find_element(By.XPATH, l.continuen_button).click()
+        time.sleep(5)
+
+    @pytest.fixture()
+    def choose_seats(self):
+        assert driver.find_element(By.XPATH, l.outward_flight_detail).text == 'Dublin to Alicante'
+        driver.find_element(By.XPATH, l.outward_flight_seat).click()
+        driver.find_element(By.XPATH, l.next_flight_button).click()
+        time.sleep(3)
+        assert driver.find_element(By.XPATH, l.outward_flight_detail).text == 'Alicante to Dublin'
+        driver.find_element(By.XPATH, l.return_flight_seat).click()
+        driver.find_element(By.XPATH, l.seat_continue_button).click()
+        time.sleep(4)
+        driver.find_element(By.XPATH, l.fast_track_popup).click()
+        time.sleep(3)
+
+    # TESTS
     def test_suggested_flights_details(self, search_flights):
         details = driver.find_element(By.XPATH, l.details)
         split_details = details.text.split()
         depart_date = split_details[1] + ' ' + split_details[2]
-        assert depart_date == '19 Nov'
+        assert depart_date == '19 Apr'
         return_date = split_details[4] + ' ' + split_details[5]
-        assert return_date == '1 Dec'
+        assert return_date == '27 Apr'
         num_passengers = split_details[6]
         assert num_passengers == '1'
 
@@ -61,3 +87,9 @@ class TestRyanair:
         login_later.click()
         passengers_section = driver.find_element(By.XPATH, l.passengers_section)
         assert passengers_section.is_enabled()
+
+    def test_seating_page_first_flight_is_displayed(self, enter_passenger_info):
+        assert driver.find_element(By.XPATH, l.seating_page_tile).is_displayed()
+
+    def test_bags_page_is_displayed(self, choose_seats):
+        assert driver.find_element(By.XPATH, l.cabin_bags_title).is_displayed()
