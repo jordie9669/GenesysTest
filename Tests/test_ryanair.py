@@ -31,6 +31,8 @@ class TestRyanair:
         driver.find_element(By.XPATH, l.return_date_april_27).click()
         search = driver.find_element(By.XPATH, l.search_button)
         search.click()
+        # Using sleep here as when I used an explicit wait the list index for test_suggested_flight_details
+        # was out of range
         time.sleep(2)
 
     @pytest.fixture
@@ -46,7 +48,9 @@ class TestRyanair:
 
     @pytest.fixture()
     def choose_seats(self):
-        driver.find_elements(By.XPATH, l.row_of_seats)
+        # This method will only work for the first time running the test as the chosen seats are kept for a few minutes
+        # after choosing and will not be clickable. I tried to get a list of the seats and move to the next element in
+        # the list each time the test ran but I kept getting an empty list and wasn't sure why.
         assert driver.find_element(By.XPATH, l.flight_detail).text == 'Dublin to Alicante'
         driver.find_element(By.XPATH, l.outward_flight_seat).click()
         driver.find_element(By.XPATH, l.next_flight_button).click()
@@ -84,9 +88,16 @@ class TestRyanair:
         passengers_section = driver.find_element(By.XPATH, l.passengers_section)
         assert passengers_section.is_enabled()
 
-    def test_seating_page_first_flight_is_displayed(self, enter_passenger_info):
+    def test_seating_page_outward_flight_is_displayed(self, enter_passenger_info):
         driver.find_element(By.XPATH, l.continuen_button).click()
         assert driver.find_element(By.XPATH, l.seating_page_tile).is_displayed()
+
+    # The following 2 tests may fail when the test suite is ran for the second time in quick succession
+    # due to the issue mentioned above in the choose_seats fixture. They will pass again once the seats have been
+    # cleared after a few minutes
+    def test_seating_page_return_flight_is_displayed(self, enter_passenger_info):
+        driver.find_element(By.XPATH, l.continuen_button).click()
+        assert driver.find_element(By.XPATH, l.seat_continue_button).is_displayed()
 
     def test_bags_page_is_displayed(self, choose_seats):
         driver.find_element(By.XPATH, l.seat_continue_button).click()
