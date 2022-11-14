@@ -1,6 +1,8 @@
 GenesysTest
 
-To run the tests, install the following libraries on your machine by opening command prompt in admin mode and entering:
+To run the tests, download the zip package from github or clone the project.
+
+Install the following libraries on your machine by opening command prompt in admin mode and entering:
 
 pip install pytest 
 
