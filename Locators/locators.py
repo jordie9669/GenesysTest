@@ -1,9 +1,10 @@
 
 # SEARCH PAGE
 from_field = '//*[@id="input-button__departure"]'
+from_city = '//*[@id="ry-tooltip-1"]/div[2]/hp-app-controls-tooltips/fsw-controls-tooltips-container/fsw-controls-tooltips/fsw-origin-container/fsw-airports/div/fsw-airports-list/div[2]/div[1]/fsw-airport-item[2]/span/span'
 depart_date_april_19 = '//*[@id="ry-tooltip-6"]/div[2]/hp-app-controls-tooltips/fsw-controls-tooltips-container/fsw-controls-tooltips/fsw-flexible-datepicker-container/fsw-datepicker/ry-datepicker-desktop/div[1]/calendar[1]/calendar-body/div[5]/div[7]/div'
 city = '//*[@id="ry-tooltip-3"]/div[2]/hp-app-controls-tooltips/fsw-controls-tooltips-container/fsw-controls-tooltips/fsw-destination-container/fsw-airports/div/fsw-airports-list/div[2]/div[1]/fsw-airport-item[4]'
-return_date_april_27 = '//*[@id="ry-tooltip-7"]/div[2]/hp-app-controls-tooltips/fsw-controls-tooltips-container/fsw-controls-tooltips/fsw-flexible-datepicker-container/fsw-datepicker/ry-datepicker-desktop/div[1]/calendar[1]/calendar-body/div[6]/div[10]/div'
+return_date_april_26 = '//*[@id="ry-tooltip-7"]/div[2]/hp-app-controls-tooltips/fsw-controls-tooltips-container/fsw-controls-tooltips/fsw-flexible-datepicker-container/fsw-datepicker/ry-datepicker-desktop/div[1]/calendar[1]/calendar-body/div[6]/div[7]/div'
 num_passengers = '/html/body/hp-app-root/hp-home-container/hp-home/hp-search-widget-container/hp-search-widget/div/hp-flight-search-widget-container/fsw-flight-search-widget-container/fsw-flight-search-widget/div/fsw-flight-search-widget-controls-container/fsw-flight-search-widget-controls/div[2]/fsw-input-button/div/div[2]'
 search_button = '/html/body/hp-app-root/hp-home-container/hp-home/hp-search-widget-container/hp-search-widget/div/hp-flight-search-widget-container/fsw-flight-search-widget-container/fsw-flight-search-widget/div/div/div/button'
 month_april = '//*[@id="ry-tooltip-6"]/div[2]/hp-app-controls-tooltips/fsw-controls-tooltips-container/fsw-controls-tooltips/fsw-flexible-datepicker-container/fsw-datepicker/ry-datepicker-desktop/month-toggle/div/div[2]/div/div[6]/div[2]'
@@ -29,9 +30,9 @@ continuen_button = '/html/body/app-root/flights-root/div/div/div/div/flights-laz
 row_of_seats = '/html/body/seats-root/div/div/div/seats-container-root/seats-container-v2/main/div[2]/div/div/div/div/div/div[1]/seat-map/div/div[4]/div'
 seating_page_tile = '/html/body/seats-root/div/div/div/seats-container-root/seats-container-v2/main/div[1]/div/h1'
 flight_detail = '/html/body/seats-root/div/div/div/seats-container-root/seats-container-v2/main/div[2]/div/div/div/div/div/div[2]/div/passenger-carousel-v2/div/div[1]/h4'
-outward_flight_seat = '//*[@id="seat-20C"]'
+outward_flight_seat = 'seat-23B'
 next_flight_button = '/html/body/seats-root/div/div/div/seats-container-root/seats-container-v2/main/div[2]/div/div/div/div/div/div[2]/div/seats-actions/span/button'
-return_flight_seat = '//*[@id="seat-08F"]'
+return_flight_seat = 'seat-08B'
 seat_continue_button = '/html/body/seats-root/div/div/div/seats-container-root/seats-container-v2/main/div[2]/div/div/div/div/div/div[2]/div/seats-actions/span/button'
 fast_track_popup = '/html/body/seats-root/personalization-takeovers/ry-message-renderer[3]/ng-component/ry-enhanced-takeover-beta-desktop/div/div[3]/div[2]/div[1]/button'
 

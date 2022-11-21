@@ -10,7 +10,7 @@ import Locators.locators
 
 driver = webdriver.Chrome(
     executable_path='GenesysTest/drivers/chromedriver.exe')
-driver.implicitly_wait(10)
+driver.implicitly_wait(30)
 l = Locators.locators
 
 
@@ -23,12 +23,14 @@ class TestRyanair:
         # accept cookie popup
         driver.find_element(By.CLASS_NAME, "cookie-popup-with-overlay__button").click()
         driver.find_element(By.ID, 'input-button__destination').click()
-        # select city
+        # select depart city
+        driver.find_element(By.XPATH, l.from_field).click()
+        driver.find_element(By.XPATH, l.from_city).click()
         city = driver.find_element(By.XPATH, l.city)
         city.click()
         driver.find_element(By.XPATH, l.month_april).click()
         driver.find_element(By.XPATH, l.depart_date_april_19).click()
-        driver.find_element(By.XPATH, l.return_date_april_27).click()
+        driver.find_element(By.XPATH, l.return_date_april_26).click()
         search = driver.find_element(By.XPATH, l.search_button)
         search.click()
         # Using sleep here as when I used an explicit wait the list index for test_suggested_flight_details
@@ -52,11 +54,11 @@ class TestRyanair:
         # after choosing and will not be clickable. I tried to get a list of the seats and move to the next element in
         # the list each time the test ran but I kept getting an empty list and wasn't sure why.
         assert driver.find_element(By.XPATH, l.flight_detail).text == 'Dublin to Alicante'
-        driver.find_element(By.XPATH, l.outward_flight_seat).click()
+        driver.find_element(By.ID, l.outward_flight_seat).click()
         driver.find_element(By.XPATH, l.next_flight_button).click()
-        time.sleep(2)
+        time.sleep(5)
         assert driver.find_element(By.XPATH, l.flight_detail).text == 'Alicante to Dublin'
-        driver.find_element(By.XPATH, l.return_flight_seat).click()
+        driver.find_element(By.ID, l.return_flight_seat).click()
 
     # TESTS
     def test_suggested_flights_details(self, search_flights):
@@ -65,7 +67,7 @@ class TestRyanair:
         depart_date = split_details[1] + ' ' + split_details[2]
         assert depart_date == '19 Apr'
         return_date = split_details[4] + ' ' + split_details[5]
-        assert return_date == '27 Apr'
+        assert return_date == '26 Apr'
         num_passengers = split_details[6]
         assert num_passengers == '1'
 
@@ -95,12 +97,12 @@ class TestRyanair:
     # The following 2 tests may fail when the test suite is ran for the second time in quick succession
     # due to the issue mentioned above in the choose_seats fixture. They will pass again once the seats have been
     # cleared after a few minutes
-    def test_seating_page_return_flight_is_displayed(self, enter_passenger_info):
-        driver.find_element(By.XPATH, l.continuen_button).click()
+    def test_seating_page_return_flight_is_displayed(self):
         assert driver.find_element(By.XPATH, l.seat_continue_button).is_displayed()
 
     def test_bags_page_is_displayed(self, choose_seats):
         driver.find_element(By.XPATH, l.seat_continue_button).click()
+        time.sleep(5)
         if(driver.find_element(By.XPATH, l.fast_track_popup)).is_displayed():
             driver.find_element(By.XPATH, l.fast_track_popup).click()
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, l.cabin_bags_title)))
